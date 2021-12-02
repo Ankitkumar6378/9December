@@ -3,6 +3,8 @@ import { FormBuilder,FormGroup } from '@angular/forms';
 import{HttpClient} from'@angular/common/http'
 import { Router } from '@angular/router';
 import { Validators } from '@angular/forms';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
+
 
 
 @Component({
@@ -12,12 +14,13 @@ import { Validators } from '@angular/forms';
 })
 export class RegistrationComponent implements OnInit {
   registrationForm!:FormGroup
+  public errorMessage: string = '';
 
-  constructor(private formbuilder:FormBuilder, private http:HttpClient,private router:Router) { }
+  constructor(private formbuilder:FormBuilder, private http:HttpClient,private router:Router,private errorHandler:ErrorHandlerService ) { }
   ngOnInit(): void {
     this.registrationForm=this.formbuilder.group({
-    username:['',[Validators.required,Validators.pattern('^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$')]],
-    email:['',[Validators.required,Validators.pattern('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}')]],
+    username:['',[Validators.required,Validators.pattern('^[a-zA-Z ]{3,30}$')]],
+    email:['',[Validators.required,Validators.pattern('^([a-zA-Z0-9])(([a-zA-Z0-9])*([\._\+-])*([a-zA-Z0-9]))*@(([a-zA-Z0-9\-])+(\.))+([a-zA-Z]{2,4})+$')]],
     mobile:['',[Validators.required, Validators.pattern('[6-9]\\d{9}')]],
     password:['',[Validators.required,Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,16}$')]]
     })
@@ -39,13 +42,42 @@ export class RegistrationComponent implements OnInit {
    return this.registrationForm.get('password')
   }
   submit(){
+    
+      if(!this.registrationForm.valid){
+        return this.registrationForm.markAllAsTouched()
+      }
+      else {
+      //process you request
+      
     this.http.post<any>("http://192.168.1.140:3000/students",this.registrationForm.value).subscribe((result)=>{
-      alert("Registration Successfull !!!");
-      this.registrationForm.reset();
-      this.router.navigate(['login'])
-  
-     },err=>{
-       alert("somthing wrong in server side")
-    })
+      if(result.statusCode===200)
+      {
+        alert("registration successfull")
+        this.router.navigate(['login'])
+      }
+      else if(result.statusCode===402)
+      {
+        alert("email already exist")
+      }
+      else if(result.statusCode===403)
+      {
+        alert("phone already exist")
+      }
+      else if(result.statusCode===401)
+      {
+        alert("Not successfull")
+      }
+      else
+      {
+        alert('somthing wrong')
+      }
+    
+   },(error) => {
+      this.errorHandler.handleError(error);
+   }) 
+      }
+      
+    
+
   }
 }
