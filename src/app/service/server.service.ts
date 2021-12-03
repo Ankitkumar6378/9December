@@ -6,12 +6,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ServerService {
   url="http://192.168.1.140:3000/students"
-  // urls="http://192.168.1.116:3000/userLogin"
+  link="http://192.168.1.140:3000/login"
   constructor(private http:HttpClient) { }
 
   postdata(data:any)
   {
     return this.http.post(this.url,data)
   }
+  postdata_login(data:any)
+  {
+    return this.http.post(this.link,data)
+  }
+
  
 }

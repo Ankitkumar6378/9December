@@ -4,6 +4,7 @@ import{HttpClient} from'@angular/common/http'
 import { Router } from '@angular/router';
 import { Validators } from '@angular/forms';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 
@@ -20,8 +21,8 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.registrationForm=this.formbuilder.group({
     username:['',[Validators.required,Validators.pattern('^[a-zA-Z ]{3,30}$')]],
-    email:['',[Validators.required,Validators.pattern('^([a-zA-Z0-9])(([a-zA-Z0-9])*([\._\+-])*([a-zA-Z0-9]))*@(([a-zA-Z0-9\-])+(\.))+([a-zA-Z]{2,4})+$')]],
-    mobile:['',[Validators.required, Validators.pattern('[6-9]\\d{9}')]],
+    email:['',[Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
+    mobile:['',[Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
     password:['',[Validators.required,Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,16}$')]]
     })
   }
@@ -50,27 +51,16 @@ export class RegistrationComponent implements OnInit {
       //process you request
       
     this.http.post<any>("http://192.168.1.140:3000/students",this.registrationForm.value).subscribe((result)=>{
-      if(result.statusCode===200)
+      if(result.status==="Success")
       {
-        alert("registration successfull")
+        alert(result.mesg)
         this.router.navigate(['login'])
       }
-      else if(result.statusCode===402)
+      else if(result.status==="Error")
       {
-        alert("email already exist")
+        alert(result.mesg)
       }
-      else if(result.statusCode===403)
-      {
-        alert("phone already exist")
-      }
-      else if(result.statusCode===401)
-      {
-        alert("Not successfull")
-      }
-      else
-      {
-        alert('somthing wrong')
-      }
+     
     
    },(error) => {
       this.errorHandler.handleError(error);

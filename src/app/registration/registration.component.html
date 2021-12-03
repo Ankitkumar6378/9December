@@ -14,8 +14,8 @@
       <h2>Registration Form</h2>
 
       <label>UserName </label>
-      <input type="text" placeholder="Ankit...." id="fn" required minlength="8" name="username"
-        formControlName="username"> 
+      <input type="text" placeholder="Ankit...." id="fn"  required minlength="8" name="username"
+        formControlName="username"onblur="this.value=this.value.trim()"> 
       <div style="color: red;" *ngIf="username && username.invalid && username.touched ">
         <div *ngIf="username.errors?.['required']">
           username is required
@@ -23,16 +23,14 @@
         <div *ngIf="username.errors?.['minlength']">
           username must be at least 8 characters long.
         </div>
-        <div *ngIf="username">
-          enter valid username
-        </div>
+     
 
       </div>
       
    
      <div>
       <label>Email </label>
-      <input type="text" placeholder="Abc@gmail.com" name="email" required id="em" formControlName="email">
+      <input type="text" placeholder="Abc@gmail.com" name="email"  required id="em"   formControlName="email"  >
       <div style="color: red;" *ngIf="email && email.invalid && email.touched ">
         <div *ngIf="email.errors?.['required']">
           email is required

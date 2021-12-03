@@ -32,33 +32,29 @@ export class LoginComponent implements OnInit {
    return this.loginForm.get('password')
   }
   login(){
-    this.loginForm.markAllAsTouched();
+    if(!this.loginForm.valid){
+      return this.loginForm.markAllAsTouched()
+    }
+    else {
 
-    this.http.post<any>("http://192.168.1.140:3000/",this.loginForm.value).subscribe((result)=>{
+    this.http.post<any>("http://192.168.1.140:3000/login",this.loginForm.value).subscribe((result)=>{
   
-     if(result.statusCode===201)
-     {
-       alert("login successfull")
-       this.router.navigate(['home'])
-     }
-     else if(result.statusCode===406)
-     {
-       alert("error in id/password")
-       
-     }
-     else if(result.statusCode===405)
-     {
-       alert("user not found")
-       
-     }
-     else
-     {
-       alert("somthing wrong")
-     }
+      if(result.status==="Success")
+      {
+        alert(result.mesg)
+        
+
+        this.router.navigate(['home'])
+      }
+      else if(result.status==="Error")
+      {
+        alert(result.mesg)
+      }
     },(error) => {
       this.errorHandler.handleError(error)
     }
   )
   }
+}
 
 }
