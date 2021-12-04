@@ -14,64 +14,62 @@
       <h2>Registration Form</h2>
 
       <label>UserName </label>
-      <input type="text" placeholder="Ankit...." id="fn"  required minlength="8" name="username"
-        formControlName="username"onblur="this.value=this.value.trim()"> 
+      <input type="text" placeholder="Ankit...." id="fn" required minlength="8" name="username"
+        formControlName="username" onblur="this.value=this.value.trim()">
       <div style="color: red;" *ngIf="username && username.invalid && username.touched ">
         <div *ngIf="username.errors?.['required']">
           username is required
         </div>
-        <div *ngIf="username.errors?.['minlength']">
-          username must be at least 8 characters long.
+        <div *ngIf="username.errors?.['pattern']">
+          enter valid username
         </div>
-     
+
 
       </div>
-      
-   
-     <div>
-      <label>Email </label>
-      <input type="text" placeholder="Abc@gmail.com" name="email"  required id="em"   formControlName="email"  >
-      <div style="color: red;" *ngIf="email && email.invalid && email.touched ">
-        <div *ngIf="email.errors?.['required']">
-          email is required
-        </div>
-        <div *ngIf="email">
-          enter valid email
-        </div>
-      </div>
-    </div>
-     
-    <div>
-      <label>Mobile No :</label>
-      <input type="number" placeholder="eg. phone number" required id="mn" name="mobile" formControlName="mobile">
-      <br>
-      <div style="color: red;" *ngIf="mobile && mobile.invalid && mobile.touched">
-        <div *ngIf="mobile.errors?.['required']">
-          mobile is required
-        </div>
-        <div *ngIf="mobile">
-          please enter valid indian nmber
-        </div>
-      </div>
-    </div>
 
 
       <div>
-      <label>Password:</label>
-      <input type="password" name="password" placeholder="Enter Password" required minlength="6" class="login"
-        formControlName="password">
-      <div style="color: red;" *ngIf="password && password.invalid && password.touched">
-        <div *ngIf="password.errors?.['minlength']">
-          password must be at least 6 characters long.
-        </div>
-        <div *ngIf="password.errors?.['required']">
-          password is required.
-        </div>
-        <div *ngIf="password">
-          enter valid password
+        <label>Email </label>
+        <input type="text" placeholder="Abc@gmail.com" name="email" required id="em" formControlName="email">
+        <div style="color: red;" *ngIf="email && email.invalid && email.touched ">
+          <div *ngIf="email.errors?.['required']">
+            email is required
+          </div>
+          <div *ngIf="email.errors?.['pattern']">
+            enter valid email
+          </div>
         </div>
       </div>
+
+      <div>
+        <label>Mobile No :</label>
+        <input type="number" placeholder="eg. phone number" required id="mn" name="mobile" formControlName="mobile">
+        <br>
+        <div style="color: red;" *ngIf="mobile && mobile.invalid && mobile.touched">
+          <div *ngIf="mobile.errors?.['required']">
+            mobile is required
+          </div>
+          <div *ngIf="mobile.errors?.['pattern']">
+            enter valid phone number
+          </div>
+        </div>
       </div>
+
+
+      <div>
+        <label>Password:</label>
+        <input type="password" name="password" placeholder="Enter Password" required class="login"
+          formControlName="password">
+        <div style="color: red;" *ngIf="password && password.invalid && password.touched">
+
+          <div *ngIf="password.errors?.['required']">
+            password is required.
+          </div>
+          <div *ngIf="password.errors?.['pattern']">
+            enter valid password
+          </div>
+        </div>
+      </div><br>
 
 
       <button type="submit" id="button">Register</button>

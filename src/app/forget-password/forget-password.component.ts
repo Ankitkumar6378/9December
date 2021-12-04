@@ -4,6 +4,8 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
+import { ServerService } from '../service/server.service';
 
 
 @Component({
@@ -13,29 +15,41 @@ import { Router } from '@angular/router';
 })
 export class ForgetPasswordComponent implements OnInit {
 
-  forgetpage!:FormGroup;
-  
+  forgetpage!: FormGroup;
 
-  constructor(private formbuilder:FormBuilder,private http:HttpClient,private router:Router) { }  
+
+  constructor(private formbuilder: FormBuilder, private userdata:ServerService,private http: HttpClient, private router: Router, private errorHandler: ErrorHandlerService) { }
 
   ngOnInit(): void {
-    this.forgetpage=this.formbuilder.group({
-      email:['',[Validators.required,Validators.pattern('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}')]],
+    this.forgetpage = this.formbuilder.group({
+      email: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9])(([a-zA-Z0-9])*([\._\+-])*([a-zA-Z0-9]))*@(([a-zA-Z0-9\-])+(\.))+([a-zA-Z]{2,4})+$')]],
 
     })
   }
-  get email()
-  {
-   return this.forgetpage.get('email')
+  get email() {
+    return this.forgetpage.get('email')
   }
- 
-  Submit(){
-    this.http.get<any>("http://192.168.1.140:3000/forget",this.forgetpage.getRawValue()).subscribe((result)=>{
-      
-    console.log("succesful")
-    },err=>{
-      alert("somthing wrong")
-    })
-  }
+  Submit() {
 
+    if (!this.forgetpage.valid) {
+      return this.forgetpage.markAllAsTouched()
+    }
+    else {
+      //process you request
+
+      this.userdata.forgetdata( this.forgetpage.value).subscribe((result) => {
+        if (result.status === "Success") {
+          alert(result.mesg)
+          this.router.navigate(['reset'])
+        }
+        else if (result.status === "Error") {
+          alert(result.mesg)
+        }
+
+
+      }, (error) => {
+        this.errorHandler.handleError(error);
+      })
+    }
+  }
 }

@@ -1,59 +1,58 @@
 <html>
 
 <head>
-    <title>LOGIN PAGE</title>
+  <title>LOGIN PAGE</title>
 </head>
 
 
 <body>
-    <div class="container" id="console">
-        <form id="form" [formGroup]="loginForm" (ngSubmit)="login()">
+  <div class="container" id="console">
+    <form id="form" [formGroup]="loginForm" (ngSubmit)="login()">
 
-            <h2>LOGIN PAGE</h2>
-
-
-
-            <div>
-                <label>Email </label>
-                <input type="text" placeholder="Abc@gmail.com" name="email" required id="em" formControlName="email" class="login">
-                <div style="color: red;" *ngIf="email && email.invalid && email.touched ">
-                  <div *ngIf="email.errors?.['required']">
-                    email is required
-                  </div>
-                  <div *ngIf="email">
-                    enter valid email
-                  </div>
-                </div>
-              </div>
+      <h2>LOGIN PAGE</h2>
 
 
-              <div>
-                <label>Password:</label>
-                <input type="password" name="password" placeholder="Enter Password" required minlength="6" class="login"
-                  formControlName="password">
-                <div style="color: red;" *ngIf="password && password.invalid && password.touched">
-                  <div *ngIf="password.errors?.['minlength']">
-                    password must be at least 6 characters long.
-                  </div>
-                  <div *ngIf="password.errors?.['required']">
-                    password is required.
-                  </div>
-                  <div *ngIf="password">
-                    enter valid password
-                  </div>
-                </div>
-                </div>
 
-            <button id="btn" value="Submit">Login</button>
+      <div>
+        <label>Email :</label>
+        <input type="text" placeholder="Abc@gmail.com" name="email" required id="em" formControlName="email"
+          class="login">
+        <div style="color: red;" *ngIf="email && email.invalid && email.touched ">
+          <div *ngIf="email.errors?.['required']">
+            email is required
+          </div>
+          <div *ngIf="email.errors?.['pattern']">
+            enter valid email
+          </div>
+        </div>
+      </div>
 
-            <p>
-                Not a member ?
-                <a routerLink="/registration"> Go and register. </a><br>
-                <a routerLink="/forget">Forget your Password?</a>
-            </p>
 
-        </form>
-    </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" name="password" placeholder="Enter Password" required class="login"
+          formControlName="password">
+        <div style="color: red;" *ngIf="password && password.invalid && password.touched">
+
+          <div *ngIf="password.errors?.['required']">
+            password is required.
+          </div>
+          <div *ngIf="password.errors?.['pattern']">
+            enter valid password
+          </div>
+        </div>
+      </div>
+
+      <button id="btn" value="Submit">Login</button>
+
+      <p>
+        Not a member ?
+        <a routerLink="/registration"> Go and register. </a><br>
+        <a routerLink="/forget">Forget your Password?</a>
+      </p>
+
+    </form>
+  </div>
 
 
 </body>

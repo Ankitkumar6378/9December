@@ -10,7 +10,7 @@ const routes: Routes = [
   {path:'registration',component:RegistrationComponent},
   {path:'forget',component:ForgetPasswordComponent},
   {path:'home',component:HomeComponent},
-  {path:'reset/:token',component:ResetPasswordComponent},
+  {path:'reset',component:ResetPasswordComponent},
   
 
 
