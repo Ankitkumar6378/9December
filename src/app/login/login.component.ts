@@ -39,9 +39,11 @@ export class LoginComponent implements OnInit {
     else {
 
       this.userdata.logindata(this.loginForm.value).subscribe((result) => {
+        console.log(result)
 
         if (result.status === "Success") {
           alert(result.mesg)
+          sessionStorage.setItem("username",result.data.username)
          
           sessionStorage.setItem('loggedUser', this.loginForm.value.email);
 

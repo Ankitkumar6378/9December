@@ -15,15 +15,23 @@
 
         
       <label>UserName </label>
-      <input type="text" placeholder="Ankit...." id="fn"  required minlength="8" name="username"
-        formControlName="username"onblur="this.value=this.value.trim()"> 
+      <input type="text"  placeholder="Ankit...." id="fn"  required minlength="4"  maxlength="50" name="username" 
+        formControlName="username" > 
       <div style="color: red;" *ngIf="username && isValidFormSubmitted != null && !isValidFormSubmitted ">
         <div *ngIf="username.errors?.['required']">
           username is required
         </div>
+        <div *ngIf="username.errors?.['minlength']">
+          minimum LENGTH 4
+        </div>
+        <div *ngIf="username.errors?.['maxlength']">
+          maxlength LENGTH 50
+        </div>
         <div *ngIf="username.errors?.['pattern']">
         enter valid username
         </div>
+        <div *ngIf="username.errors?.['noWhiteSpace']">
+          Username cannot contain space          </div>
      
 
       </div>
@@ -31,7 +39,7 @@
    
      <div>
       <label>Email </label>
-      <input type="text" placeholder="Abc@gmail.com" name="email"  required id="em"   formControlName="email"  >
+      <input type="email" placeholder="Abc@gmail.com" pattern="^([\w\.]+)@([\w\-]+)((\.(\w){2,3})+)$" name="email"  required id="em"   formControlName="email"  >
       <div style="color: red;" *ngIf="email && isValidFormSubmitted != null && !isValidFormSubmitted ">
         <div *ngIf="email.errors?.['required']">
           email is required
@@ -51,7 +59,7 @@
           mobile is required
         </div>
         <div *ngIf="mobile.errors?.['pattern']">
-          enter valid phone number
+          enter valid indian phone number
         </div>
       </div>
     </div>
@@ -59,21 +67,22 @@
 
       <div>
       <label>Password:</label>
-      <input type="password" name="password" placeholder="Enter Password" required  class="login"
+      <input type="password" name="password"  placeholder="Enter Password" required  class="login"
         formControlName="password">
       <div style="color: red;" *ngIf="password && isValidFormSubmitted != null && !isValidFormSubmitted ">
        
         <div *ngIf="password.errors?.['required']">
           password is required.
         </div>
+       
         <div *ngIf="password.errors?.['pattern']">
-          enter valid password
+          one uppercase one lowercase one numeric one special character length(6-16)
         </div>
       </div>
       </div><br>
 
 
-      <button type="submit" id="button">Register</button>
+      <button type="submit"  id="button">Register</button>
 
       <p>
         Already a member ?

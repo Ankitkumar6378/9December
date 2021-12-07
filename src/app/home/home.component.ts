@@ -10,7 +10,9 @@ export class HomeComponent implements OnInit {
   constructor() { }
     userDisplayName:any = '';
     ngOnInit() {
-     this.userDisplayName = sessionStorage.getItem('loggedUser');
+     this.userDisplayName = sessionStorage.getItem('username');
+    window.sessionStorage.clear();
+
     }
 }
 

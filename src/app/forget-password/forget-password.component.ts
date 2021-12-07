@@ -40,7 +40,7 @@ export class ForgetPasswordComponent implements OnInit {
       //process you request
       this.isValidforgetpage = true;
 
-      this.userdata.forgetdata( this.forgetpage.value).subscribe((result) => {
+      this.userdata.forgetdata(this.forgetpage.value).subscribe((result) => {
         if (result.status === "Success") {
           alert(result.mesg)
           this.router.navigate(['reset'])
