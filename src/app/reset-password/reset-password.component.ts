@@ -14,6 +14,7 @@ import { ServerService } from '../service/server.service';
 })
 export class ResetPasswordComponent implements OnInit {
   resetpass!: FormGroup;
+  isvalidresetpass=true
 
 
   constructor(private formbuilder: FormBuilder, private userdata: ServerService, private http: HttpClient, private router: Router, private route: ActivatedRoute, private errorHandler: ErrorHandlerService) { }
@@ -43,11 +44,14 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   change() {
-    if (!this.resetpass.valid) {
-      return this.resetpass.markAllAsTouched()
+    this.isvalidresetpass = false;
+    if (this.resetpass.invalid) {
+      return;
     }
     else {
       //process you request
+      this.isvalidresetpass = true;
+
 
       this.userdata.resetdata(this.resetpass.value).subscribe((result) => {
         if (result.status === "Success") {
@@ -58,7 +62,7 @@ export class ResetPasswordComponent implements OnInit {
           alert(result.mesg)
         }
       }, (error) => {
-        this.errorHandler.handleError(error);
+        this.router.navigate(['404']);
       })
     }
   }

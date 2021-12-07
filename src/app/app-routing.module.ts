@@ -5,6 +5,8 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
+import { PagenotfoundComponent } from './error-pages/pagenotfound/pagenotfound.component';
 const routes: Routes = [
   {path:'login' , component:LoginComponent},
   {path:'registration',component:RegistrationComponent},
@@ -12,10 +14,15 @@ const routes: Routes = [
   {path:'home',component:HomeComponent},
   {path:'reset',component:ResetPasswordComponent},
   
+  { path: '404', component: PagenotfoundComponent},
+
+  {path:'',redirectTo:'/registration' ,pathMatch: 'full'},
+
+  
 
 
 
-  {path:'**',redirectTo:'login'}
+  {path:'**',redirectTo:'/404',pathMatch: 'full'}
 ];
 
 @NgModule({

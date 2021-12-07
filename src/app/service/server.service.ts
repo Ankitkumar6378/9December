@@ -6,25 +6,23 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ServerService {
-  sign_api = "http://192.168.1.140:3000/students"
-  login_api = "http://192.168.1.140:3000/login"
-  forget_api = "http://192.168.1.140:3000/otp"
-  reset_api = "http://192.168.1.140:3000/forget"
+  URL= "http://192.168.1.140:3000"
+ 
   constructor(private http: HttpClient) { }
 
   postdata(data: any): Observable<any> {
-    return this.http.post(this.sign_api, data)
+    return this.http.post(`${this.URL}/students`
+    , data)
   }
   logindata(data: any): Observable<any> {
-    return this.http.post(this.login_api, data)
-  }
+    return this.http.post(`${this.URL}/login`
+    , data)  }
   forgetdata(data: any): Observable<any> {
-    return this.http.post(this.forget_api, data)
-  }
+    return this.http.post(`${this.URL}/otp`
+    , data)  }
   resetdata(data: any): Observable<any> {
-    return this.http.post(this.reset_api, data)
-  }
-
+    return this.http.post(`${this.URL}/forget`
+    , data)  }
 
 
 }

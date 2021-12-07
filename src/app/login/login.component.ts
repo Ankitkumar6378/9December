@@ -16,12 +16,13 @@ import { ServerService } from '../service/server.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup
+  isValidloginform = true;
   constructor(private formbuilder: FormBuilder, private http: HttpClient, private userdata:ServerService,private router: Router, private errorHandler: ErrorHandlerService) { }
 
   ngOnInit(): void {
     this.loginForm = this.formbuilder.group({
-      email: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9])(([a-zA-Z0-9])*([\._\+-])*([a-zA-Z0-9]))*@(([a-zA-Z0-9\-])+(\.))+([a-zA-Z]{2,4})+$')]],
-      password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,16}$')]]
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,16}$')]],
     })
   }
   get email() {
@@ -31,8 +32,9 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password')
   }
   login() {
-    if (!this.loginForm.valid) {
-      return this.loginForm.markAllAsTouched()
+    this.isValidloginform = false;
+    if (this.loginForm.invalid) {
+      return;
     }
     else {
 
@@ -40,15 +42,16 @@ export class LoginComponent implements OnInit {
 
         if (result.status === "Success") {
           alert(result.mesg)
-
+         
+          sessionStorage.setItem('loggedUser', this.loginForm.value.email);
 
           this.router.navigate(['home'])
         }
         else if (result.status === "Error") {
           alert(result.mesg)
         }
-      }, (error) => {
-        this.errorHandler.handleError(error)
+      },  (error) => {
+        this.router.navigate(['404']);
       }
       )
     }

@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { Validators } from '@angular/forms';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
 import { ServerService } from '../service/server.service';
+import { FormControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
+import { NameValidator } from '../namevalidator';
+
 
 
 
@@ -17,16 +21,27 @@ import { ServerService } from '../service/server.service';
 export class RegistrationComponent implements OnInit {
   registrationForm!: FormGroup
   public errorMessage: string = '';
+  isValidFormSubmitted = true;
 
-  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router, private errorHandler: ErrorHandlerService,private userdata:ServerService) { }
+  nonWhitespaceRegExp: RegExp = new RegExp("\\S");
+
+  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router, private errorHandler: ErrorHandlerService, private userdata: ServerService) { }
+ 
   ngOnInit(): void {
     this.registrationForm = this.formbuilder.group({
-      username: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]{3,30}$')]],
-      email: ['', [Validators.required, Validators.pattern('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}')]],
+      username: ['', [Validators.required, Validators.pattern('^(?! )[A-Za-z ]*(?<! )$')]],
+      email: ['', [Validators.required, Validators.pattern('')]],
       mobile: ['', [Validators.required, Validators.pattern('[6-9]\\d{9}')]],
-      password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,16}$')]]
+      password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,16}$')]],
     })
   }
+  noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || "").trim().length === 0;
+    const isValid = !isWhitespace;
+    return (isValid ? null : { "whitespace": true });
+}
+
+
   get username() {
     return this.registrationForm.get('username')
   }
@@ -39,15 +54,22 @@ export class RegistrationComponent implements OnInit {
   get password() {
     return this.registrationForm.get('password')
   }
+
   submit() {
 
-    if (!this.registrationForm.valid) {
-      return this.registrationForm.markAllAsTouched()
+    this.isValidFormSubmitted = false;
+    if (this.registrationForm.invalid) {
+      const value = this.registrationForm.value
+      ;
+      console.log(value);
     }
+
     else {
       //process you request
+      this.isValidFormSubmitted = true;
 
       this.userdata.postdata(this.registrationForm.value).subscribe((result) => {
+       
         if (result.status === "Success") {
           alert(result.mesg)
           this.router.navigate(['login'])
@@ -58,7 +80,8 @@ export class RegistrationComponent implements OnInit {
 
 
       }, (error) => {
-        this.errorHandler.handleError(error);
+        this.router.navigate(['404']);
+
       })
     }
   }

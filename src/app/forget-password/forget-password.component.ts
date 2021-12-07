@@ -16,13 +16,14 @@ import { ServerService } from '../service/server.service';
 export class ForgetPasswordComponent implements OnInit {
 
   forgetpage!: FormGroup;
+  isValidforgetpage=true;
 
 
   constructor(private formbuilder: FormBuilder, private userdata:ServerService,private http: HttpClient, private router: Router, private errorHandler: ErrorHandlerService) { }
 
   ngOnInit(): void {
     this.forgetpage = this.formbuilder.group({
-      email: ['', [Validators.required, Validators.pattern('^([a-zA-Z0-9])(([a-zA-Z0-9])*([\._\+-])*([a-zA-Z0-9]))*@(([a-zA-Z0-9\-])+(\.))+([a-zA-Z]{2,4})+$')]],
+      email: ['', [Validators.required]],
 
     })
   }
@@ -31,11 +32,13 @@ export class ForgetPasswordComponent implements OnInit {
   }
   Submit() {
 
-    if (!this.forgetpage.valid) {
-      return this.forgetpage.markAllAsTouched()
+    this.isValidforgetpage = false;
+    if (this.forgetpage.invalid) {
+      return;
     }
     else {
       //process you request
+      this.isValidforgetpage = true;
 
       this.userdata.forgetdata( this.forgetpage.value).subscribe((result) => {
         if (result.status === "Success") {

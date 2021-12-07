@@ -12,12 +12,10 @@
       <h2>LOGIN PAGE</h2>
 
 
-
       <div>
-        <label>Email :</label>
-        <input type="text" placeholder="Abc@gmail.com" name="email" required id="em" formControlName="email"
-          class="login">
-        <div style="color: red;" *ngIf="email && email.invalid && email.touched ">
+        <label>Email </label>
+        <input type="text" placeholder="Abc@gmail.com" pattern="^([\w\.]+)@([\w\-]+)((\.(\w){2,3})+)$" name="email"  required id="em"   formControlName="email"  >
+        <div style="color: red;" *ngIf="email && isValidloginform != null && !isValidloginform ">
           <div *ngIf="email.errors?.['required']">
             email is required
           </div>
@@ -30,18 +28,19 @@
 
       <div>
         <label>Password:</label>
-        <input type="password" name="password" placeholder="Enter Password" required class="login"
+        <input type="password" name="password"  placeholder="Enter Password" required  class="login"
           formControlName="password">
-        <div style="color: red;" *ngIf="password && password.invalid && password.touched">
-
+        <div style="color: red;" *ngIf="password && isValidloginform != null && !isValidloginform ">
+         
           <div *ngIf="password.errors?.['required']">
             password is required.
           </div>
+         
           <div *ngIf="password.errors?.['pattern']">
-            enter valid password
+            one uppercase one lowercase one numeric one special character length(6-16)
           </div>
         </div>
-      </div>
+        </div><br>
 
       <button id="btn" value="Submit">Login</button>
 

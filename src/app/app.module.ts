@@ -12,6 +12,9 @@ import { HomeComponent } from './home/home.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
+import { PagenotfoundComponent } from './error-pages/pagenotfound/pagenotfound.component';
+
+
 
 @NgModule({
   declarations: [
@@ -21,6 +24,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     HomeComponent,
     ForgetPasswordComponent,
     ResetPasswordComponent,
+    PagenotfoundComponent
+    
+    
     
   ],
   imports: [
