@@ -39,7 +39,7 @@
    
      <div>
       <label>Email </label>
-      <input type="email" placeholder="Abc@gmail.com" pattern="^([\w\.]+)@([\w\-]+)((\.(\w){2,3})+)$" name="email"  required id="em"   formControlName="email"  >
+      <input type="email" placeholder="Abc@gmail.com" style="text-transform:lowercase" pattern="^([\w\.]+)@([\w\-]+)((\.(\w){2,3})+)$" name="email"  required id="em"   formControlName="email"  >
       <div style="color: red;" *ngIf="email && isValidFormSubmitted != null && !isValidFormSubmitted ">
         <div *ngIf="email.errors?.['required']">
           email is required

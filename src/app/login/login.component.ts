@@ -43,10 +43,8 @@ export class LoginComponent implements OnInit {
 
         if (result.status === "Success") {
           alert(result.mesg)
-          sessionStorage.setItem("username",result.data.username)
+        localStorage.setItem("username",result.data.username)
          
-          sessionStorage.setItem('loggedUser', this.loginForm.value.email);
-
           this.router.navigate(['home'])
         }
         else if (result.status === "Error") {

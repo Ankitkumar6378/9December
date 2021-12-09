@@ -6,4 +6,9 @@ export class NameValidator {
         const isValid = !isWhitespace;
         return (isValid ? null : { "whitespace": true });
     }
+    static removewhitespace(control:AbstractControl):ValidationErrors| null{
+        var test=control.value;
+        var cleanStr=test.trim();
+        return cleanStr;
+    }
 }
